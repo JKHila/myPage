@@ -4,7 +4,8 @@ var app = express();
 var server = http.createServer(app);
 
 app.get('/',function(req,res){
-    res.send("hello world!");
+    //res.send("hello world!");
+    res.render("main.ejs");
 });
 
 app.get('/world.html',function(req,res){
