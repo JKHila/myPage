@@ -36,11 +36,11 @@ sftp.connect({
     return sftp.list('/home/gunny/Videos');
 }).then((data) => {
     app.get('/sftp',function(req,res){
-        var a = "";
+        /*var a = "";
         for(var i = 0;i<data.length;i++){
             a += data[i].name+"\r\n";
-        }
-        res.send(a);
+        }*/
+        res.render('sftpList.ejs',{data:data});
     });
     //console.log(data, 'the data info');
 }).catch((err) => {
