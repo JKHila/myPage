@@ -1,7 +1,7 @@
 {
   "name": "mypage",
   "version": "1.0.0",
-  "description": "",
+  "description": "my web page",
   "main": "app.js",
   "dependencies": {
     "ejs": "^2.5.6",
