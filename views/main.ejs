@@ -64,6 +64,9 @@
       <div class="starter-template">
         <img src="/public/img/main.png" alt="">
       </div>
+      <div id = "cpuTest">
+        0
+      </div>
 
     </div><!-- /.container -->
 
@@ -74,6 +77,16 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="./public/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      $(function(){
+        var socket = io();
+        socket.on('cpu',function(data){
+          $("#cpuTest").text(data.toString());
+          console.log(data);
+        })
+      });
+    </script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   
 

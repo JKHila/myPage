@@ -1,30 +1,33 @@
 var express = require('express');
-var http = require('http');
-var path = require('path');
 var app = express();
-var server = http.createServer(app);
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var path = require('path');
+var route = require('./routes/index');
+
 
 app.use(express.static('./'));
-//app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function (req, res) {
     //res.send("hello world!");
     res.render("main.ejs");
 });
 
-app.get('/world.html', function (req, res) {
-    res.send("222");
-});
-
-
-app.get('/ss',function(req,res){
-    res.send("hell");
-});
+app.use("/",route);
 
 server.listen(8080, function () {
-    console.log('Express server listening on port ' + server.address().port);
+    console.log('Express server listening on port ' +server.address().port);
 });
 
+io.on('connection',function(socket){
+    var i = 1;
+    setInterval(function() {
+        i++;
+        socket.emit('cpu',i);
+        console.log(socket.id,i);
+    }, 1000);
+});
 
+/*
 let Client = require('ssh2-sftp-client');
 let sftp = new Client();
 sftp.connect({
@@ -39,10 +42,10 @@ sftp.connect({
         /*var a = "";
         for(var i = 0;i<data.length;i++){
             a += data[i].name+"\r\n";
-        }*/
+        }
         res.render('sftpList.ejs',{data:data});
     });
     //console.log(data, 'the data info');
 }).catch((err) => {
     console.log(err, 'catch error');
-});
+});*/
