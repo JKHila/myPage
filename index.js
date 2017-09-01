@@ -19,18 +19,21 @@ server.listen(8080, function () {
 });
 
 var exec = require('child_process').exec;
+//커맨드 실행해서 리턴값 받아오기
 function execute(command, callback){
     exec(command, function(error, stdout, stderr){ callback(stdout); });
 };
 
 io.on('connection',function(socket){
+    //라즈베리파이 온도 출력하는 커맨드 실행
     execute('vcgencmd measure_temp',function(stdout){
         var temp = stdout;
         socket.emit('cpu',temp);
         console.log(temp);
     });
+    //30초마다 cpu온도 체크
     setInterval(function() {
-        exec('vcgencmd measure_temp',function(stdout){
+        execute('vcgencmd measure_temp',function(stdout){
             temp = stdout;
             socket.emit('cpu',temp);
             console.log(socket.id,temp);    
