@@ -24,16 +24,17 @@ function execute(command, callback){
 };
 
 io.on('connection',function(socket){
-    temp = "NULL";
-    exec('vcgencmd measure_temp',function(stdout){
+    execute('vcgencmd measure_temp',function(stdout){
         var temp = stdout;
+        socket.emit('cpu',temp);
+        console.log(temp);
     });
     setInterval(function() {
         exec('vcgencmd measure_temp',function(stdout){
-            var temp = stdout;
+            temp = stdout;
+            socket.emit('cpu',temp);
+            console.log(socket.id,temp);    
         });
-        socket.emit('cpu',temp);
-        console.log(socket.id,temp);
     }, 30000);
 });
 
