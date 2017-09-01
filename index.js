@@ -24,7 +24,7 @@ io.on('connection',function(socket){
         i++;
         socket.emit('cpu',i);
         console.log(socket.id,i);
-    }, 1000); 
+    }, 1000);
 });
 
 /*
