@@ -18,13 +18,23 @@ server.listen(8080, function () {
     console.log('Express server listening on port ' +server.address().port);
 });
 
+var exec = require('child_process').exec;
+function execute(command, callback){
+    exec(command, function(error, stdout, stderr){ callback(stdout); });
+};
+
 io.on('connection',function(socket){
-    var i = 1;
+    temp = "NULL";
+    exec('vcgencmd measure_temp',function(stdout){
+        var temp = stdout;
+    });
     setInterval(function() {
-        i++;
-        socket.emit('cpu',i);
-        console.log(socket.id,i);
-    }, 1000);
+        exec('vcgencmd measure_temp',function(stdout){
+            var temp = stdout;
+        });
+        socket.emit('cpu',temp);
+        console.log(socket.id,temp);
+    }, 30000);
 });
 
 /*
